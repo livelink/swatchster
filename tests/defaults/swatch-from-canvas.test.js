@@ -1,18 +1,21 @@
+/**
+ * @jest-environment jsdom
+ */
+
 // Import necessary functions and modules
-const {
-  getStandoutColorsFromCanvas,
-} = require('./yourCanvasProcessingModule'); // Replace with the actual module path
+import { swatchFromCanvas } from '../../src/swatch-from-canvas';
+
+test('use jsdom in this test file', () => {
+  const element = document.createElement('div');
+  expect(element).not.toBeNull();
+});
 
 // Mock canvas and context for testing
-const { JSDOM } = require('jsdom');
-const dom = new JSDOM('<html><body><canvas id="testCanvas"></canvas></body></html>');
-global.document = dom.window.document;
-global.window = dom.window;
-const canvas = document.getElementById('testCanvas');
-const context = canvas.getContext('2d');
+const canvas_1 = document.createElement('canvas');
+const ctx = canvas_1.getContext('2d');
 
 // Sample canvas pixel data (replace with your own test data)
-const imageData = context.createImageData(2, 2);
+const imageData = ctx.createImageData(2, 2);
 imageData.data.set([
   255, 0, 0, 255, // Red
   0, 255, 0, 255, // Green
@@ -21,15 +24,15 @@ imageData.data.set([
 ]);
 
 // Set the canvas width and height
-canvas.width = 2;
-canvas.height = 2;
+canvas_1.width = 2;
+canvas_1.height = 2;
 
 // Mock getImageData method
-context.getImageData = () => imageData;
+ctx.getImageData = () => imageData;
 
-describe('getStandoutColorsFromCanvas', () => {
+describe('swatchFromCanvas', () => {
   it('should return standout colors from the canvas', () => {
-    const standoutColors = getStandoutColorsFromCanvas(canvas);
+    const standoutColors = swatchFromCanvas(canvas_1);
     
     // The expected result based on the sample data
     const expectedColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00'];
@@ -39,7 +42,7 @@ describe('getStandoutColorsFromCanvas', () => {
   });
 
   it('should return standout colors with custom tolerance', () => {
-    const standoutColors = getStandoutColorsFromCanvas(canvas, 50);
+    const standoutColors = swatchFromCanvas(canvas_1, 50);
     
     // In this case, the colors are all standout due to higher tolerance
     const expectedColors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00'];

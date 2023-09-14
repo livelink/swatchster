@@ -1,8 +1,11 @@
-export const swatchFromCanvas = (canvas, tolerance = 32) => {
+import { rgbToHex } from "./helpers/rgb-to-hex";
+import { colourDistance } from "./helpers/colour-distance";
+
+const swatchFromCanvas = (canvas, tolerance = 32) => {
   const context = canvas.getContext('2d');
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
   const pixelData = imageData.data;
-  const standoutColors = new Map();
+  const standoutColours = new Map();
 
   for (let i = 0; i < pixelData.length; i += 4) {
     const r = pixelData[i];
@@ -12,22 +15,24 @@ export const swatchFromCanvas = (canvas, tolerance = 32) => {
 
     // Check if the pixel is not transparent
     if (a > 0) {
-      const hexColor = rgbToHex(r, g, b);
+      const hexColour = rgbToHex(r, g, b);
       
-      // Check if this color is not too similar to existing standout colors
+      // Check if this colour is not too similar to existing standout colours
       let isStandout = true;
-      for (const [existingColor, _] of standoutColors.entries()) {
-        if (colorDistance(hexColor, existingColor) < tolerance) {
+      for (const [existingColour, _] of standoutColours.entries()) {
+        if (colourDistance(hexColour, existingColour) < tolerance) {
           isStandout = false;
           break;
         }
       }
 
       if (isStandout) {
-        standoutColors.set(hexColor, true);
+        standoutColours.set(hexColour, true);
       }
     }
   }
 
-  return Array.from(standoutColors.keys());
+  return Array.from(standoutColours.keys());
 }
+
+export { swatchFromCanvas };
