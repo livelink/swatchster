@@ -1,6 +1,6 @@
 {
   "name": "@livelink/swatchster",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A versatile colour swatch package that extracts colour hex codes from designs.",
   "main": "index.js",
   "repository": "https://github.com/livelink/swatchster",
