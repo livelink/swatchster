@@ -4,7 +4,7 @@
   "description": "A versatile colour swatch package that extracts colour hex codes from designs.",
   "main": "index.js",
   "repository": "https://github.com/livelink/swatchster",
-  "author": "Emma Bovill",
+  "author": "Emma Bovill <e.bovill@livelinktechonology.net>",
   "license": "MIT",
   "private": false,
   "type": "module",
